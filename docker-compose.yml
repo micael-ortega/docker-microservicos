@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  proxy:
+    image: micaelortega/nginx-proxy:1.0
+    ports:
+      - 4500:4500
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'senha123'
+      MYSQL_DATABASE: 'meubanco'
+    ports:
+      - 3306:3306
+    volumes:
+      - db-mysql:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+
+  php:
+    image: webdevops/php-apache
+    restart: always
+    volumes:
+      - app:/app
+    ports:
+      - 80:80
+volumes:
+  db-mysql:
+  app:
